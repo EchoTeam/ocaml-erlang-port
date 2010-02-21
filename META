@@ -1,0 +1,5 @@
+description	= "Parse Erlang External Term Format. Run stuff as Erlang port."
+version		= "1.0"
+archive(byte)	= "ocaml-erlang-port.cma"
+archive(native)	= "ocaml-erlang-port.cmxa"
+requires	= "num"
