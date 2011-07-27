@@ -1,0 +1,9 @@
+# OASIS_START
+# DO NOT EDIT (digest: d7b4ebcfa2c731017bc9b11bb56d0065)
+# Executable test
+<tests/ErlangTerm_Check.{native,byte}>: pkg_num
+<tests/*.ml{,i}>: pkg_num
+# Library ocaml-erlang-port
+"src": include
+<src/*.ml{,i}>: pkg_num
+# OASIS_STOP

@@ -1,54 +1,38 @@
-# If nothing works, try `ocamlmklib -o $(PACKAGE) *.ml`
+# OASIS_START
+# DO NOT EDIT (digest: bc1e05bfc8b39b664f29dae8dbd3ebbb)
 
-PACKAGE=ocaml-erlang-port
-LIBSRCS=ErlangTerm.ml ErlangPort.ml
-LIBCMIS=${LIBSRCS:.ml=.cmi}
-LIBCMOS=${LIBSRCS:.ml=.cmo}
-LIBCMXS=${LIBSRCS:.ml=.cmx}
+SETUP = ocaml setup.ml
 
-LIBS=$(PACKAGE).cma $(PACKAGE).cmxa $(PACKAGE).a lib$(PACKAGE).a
+build: setup.data
+	$(SETUP) -build $(BUILDFLAGS)
 
-all: $(LIBCMIS) $(LIBS)
+doc: setup.data build
+	$(SETUP) -doc $(DOCFLAGS)
 
-install:
-	@echo "Use install-package if you want to do a system-wide install"
+test: setup.data build
+	$(SETUP) -test $(TESTFLAGS)
 
-install-package: uninstall $(LIBCMIS) $(LIBS)
-	ocamlfind install $(PACKAGE) $(LIBS) $(LIBCMIS) META
+all: 
+	$(SETUP) -all $(ALLFLAGS)
 
-uninstall:
-	ocamlfind remove $(PACKAGE)
+install: setup.data
+	$(SETUP) -install $(INSTALLFLAGS)
 
-$(PACKAGE).cma: $(LIBCMIS) $(LIBCMOS)
-	ocamlmklib -o $(PACKAGE) $(LIBCMOS)
+uninstall: setup.data
+	$(SETUP) -uninstall $(UNINSTALLFLAGS)
 
-$(PACKAGE).cmxa: $(LIBCMIS) $(LIBCMXS)
-	ocamlmklib -o $(PACKAGE) $(LIBCMXS)
+reinstall: setup.data
+	$(SETUP) -reinstall $(REINSTALLFLAGS)
 
-lib$(PACKAGE).a: $(LIBCMIS) $(LIBCMXS)
-	ocamlmklib -o lib$(PACKAGE) $(LIBCMXS)
+clean: 
+	$(SETUP) -clean $(CLEANFLAGS)
 
-check: erlterm_check
-	@echo "Running embedded self-check"
-	./erlterm_check
-	@echo "Running external tests"
-	./erlterm_check ./erlterm_tests/*.et
-	@echo "make check: OK"
+distclean: 
+	$(SETUP) -distclean $(DISTCLEANFLAGS)
 
-erlterm_check: $(LIBCMXS) ErlangTerm_Check.cmx
-	ocamlfind ocamlopt -package num -linkpkg -o erlterm_check $(LIBCMXS) ErlangTerm_Check.cmx
+setup.data:
+	$(SETUP) -configure $(CONFIGUREFLAGS)
 
-.SUFFIXES: .ml .mli .cmx .cmo .cmi
+.PHONY: build doc test all install uninstall reinstall clean distclean configure
 
-.ml.cmx:
-	ocamlfind ocamlopt -o $@ -c $<
-
-.ml.cmo:
-	ocamlfind ocamlc -o $@ -c $<
-
-.mli.cmi:
-	ocamlfind ocamlc -o $@ $<
-
-clean:
-	rm -f *.cm* *.[ao]
-	rm -f erlterm_check
+# OASIS_STOP

@@ -1,0 +1,30 @@
+OASISFormat: 0.2
+Name:        ocaml-erlang-port
+Version:     0.1
+Synopsis:    OCaml interface to Erlang ports
+Authors:     JackNyfe, Inc.
+License:     FreeBSD
+Plugins:     DevFiles (0.2), META (0.2)
+BuildTools:  ocamlbuild
+
+Flag tests
+  Description: Build tests
+  Default: true
+
+Library "ocaml-erlang-port"
+  Path:         src
+  BuildDepends: num
+  Modules:      ErlangTerm, ErlangPort
+
+Executable test
+  Path: tests
+  Build$:          flag(tests)
+  BuildDepends: num
+  Install: false
+  CompiledObject: best
+  MainIs: ErlangTerm_Check.ml
+
+SourceRepository github
+  Type:     git
+  Location: git://github.com/EchoTeam/ocaml-erlang-port.git
+  Browser:  https://github.com/EchoTeam/ocaml-erlang-port

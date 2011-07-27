@@ -1,0 +1,10 @@
+# OASIS_START
+# DO NOT EDIT (digest: 89b56f32e31411b8839e9a738f7b5537)
+version = "0.1"
+description = "OCaml interface to Erlang ports"
+requires = "num"
+archive(byte) = "ocaml-erlang-port.cma"
+archive(native) = "ocaml-erlang-port.cmxa"
+exists_if = "ocaml-erlang-port.cma"
+# OASIS_STOP
+
