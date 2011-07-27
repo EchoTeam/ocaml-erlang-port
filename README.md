@@ -59,4 +59,3 @@ before launching `portserver.el` -- Erlang part of the example:
 	{error,no_value}
 	8> portserver:ping(ocaml).
 	pong
-	9>
