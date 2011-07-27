@@ -33,11 +33,15 @@ let port_command_dispatcher old_value = function
 ErlangPort.erlang_port_interact_with_key port_command_dispatcher None
 ```
 
+To compile the code above run:
+
+    $ cd examples/
+    $ ocamlfind ocamlopt -package ocaml-erlang-port -linkpkg -o port_sample port_sample.ml
+
 ### Erlang
 
-First, make sure you have [mavg](https://github.com/EchoTeam/mavg) package
-installed, as it is required for `portserver.erl`. Then just
-`portserver.erl` to manage connection to ./port_sample.
+Make sure you have [mavg](https://github.com/EchoTeam/mavg) package installed,
+before launching `portserver.el` -- Erlang part of the example:
 
 	1> c(portserver).
 	{ok,portserver}
