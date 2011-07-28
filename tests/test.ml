@@ -18,10 +18,10 @@ let assert_ok_file file =
   let term = binary_to_term_in (open_in file) in
   let cmp  = match term with
     | ET_Bignum _ ->
-	  (fun a b -> match (a, b) with
+      (fun a b -> match (a, b) with
         | (ET_Bignum n, ET_Bignum n') -> Num.eq_num n n'
-		| _ -> false)
-	| _ -> (=)
+        | _ -> false)
+    | _ -> (=)
   in assert_ok ~cmp term
 
 
@@ -38,7 +38,7 @@ let test_positive_bignum () =
 let test_negative_bignum () =
   let num = Num.num_of_string "-5000000000000000000" in
   match wraparound (ET_Bignum num) with
-	| ET_Bignum num' ->
+    | ET_Bignum num' ->
       assert_equal ~cmp:Num.eq_num num' num
     | _ -> failwith "Where is my BIGnum, baby?"
 ;;
@@ -72,47 +72,47 @@ let test_complex_terms () =
   let buf = Buffer.create 4 in
   Buffer.add_string buf "test";
 
-  assert_ok (ET_List  [ET_List []; ET_Tuple []; ET_Tuple [ET_Int 0]]);
+  assert_ok (ET_List [ET_List []; ET_Tuple []; ET_Tuple [ET_Int 0]]);
   assert_ok (ET_List [ ET_List [ET_Atom ""; ET_Atom "f'o\"o"]
-	                 ; ET_Tuple [ET_String ""; ET_String "f'o\"o"]
-	                 ; ET_Bignum (Num.num_of_string "0")
-	                 ; ET_Binary buf
-	                 ; ET_BitBinary (buf, 7)
+                     ; ET_Tuple [ET_String ""; ET_String "f'o\"o"]
+                     ; ET_Bignum (Num.num_of_string "0")
+                     ; ET_Binary buf
+                     ; ET_BitBinary (buf, 7)
                      ]);
 
   assert_ok (ET_Tuple [ ET_PID_EXT ("foo", 1, 0, 1)
-	                  ; ET_PID_EXT ("", 0, 1, 0)
-	                  ; ET_PORT_EXT ("some", 1, 0)
-	                  ; ET_PORT_EXT ("", 0, 1)
+                      ; ET_PID_EXT ("", 0, 1, 0)
+                      ; ET_PORT_EXT ("some", 1, 0)
+                      ; ET_PORT_EXT ("", 0, 1)
                       ]);
 
   assert_ok (ET_Tuple [ ET_EXPORT_EXT ("module", "fun", 1)
-		              ; ET_REFERENCE_EXT ("", 0, 1)
-		              ; ET_REFERENCE_EXT ("bar", 1, 0)
-		              ; ET_FUN_EXT {
-			            fe_pid = ET_PID_EXT ("", 0, 0, 0);
-			            fe_module = "";
-			            fe_index = 256;
-			            fe_uniq = 3984;
-			            fe_freeVars = []
-		              }
-		              ; ET_FUN_EXT {
-			            fe_pid = ET_PID_EXT ("smth", 0, 0, 1);
-			            fe_module = "mod";
-			            fe_index = 256;
-			            fe_uniq = 3984;
-			            fe_freeVars = [ET_List []; ET_Tuple []]
-		              }
-		              ; ET_NEW_FUN_EXT {
-			            nf_arity = 5;
-			            nf_uniq = "0123456789abcdef";
-			            nf_index = 123;
-			            nf_numFree = 2;
-			            nf_module = "some_module";
-			            nf_oldIndex = 35;
-			            nf_oldUniq = 12312;
-			            nf_rest = ""
-		              }])
+                      ; ET_REFERENCE_EXT ("", 0, 1)
+                      ; ET_REFERENCE_EXT ("bar", 1, 0)
+                      ; ET_FUN_EXT {
+                        fe_pid = ET_PID_EXT ("", 0, 0, 0);
+                        fe_module = "";
+                        fe_index = 256;
+                        fe_uniq = 3984;
+                        fe_freeVars = []
+                      }
+                      ; ET_FUN_EXT {
+                        fe_pid = ET_PID_EXT ("smth", 0, 0, 1);
+                        fe_module = "mod";
+                        fe_index = 256;
+                        fe_uniq = 3984;
+                        fe_freeVars = [ET_List []; ET_Tuple []]
+                      }
+                      ; ET_NEW_FUN_EXT {
+                        nf_arity = 5;
+                        nf_uniq = "0123456789abcdef";
+                        nf_index = 123;
+                        nf_numFree = 2;
+                        nf_module = "some_module";
+                        nf_oldIndex = 35;
+                        nf_oldUniq = 12312;
+                        nf_rest = ""
+                      }])
 
 
 let suite = "ocaml-erlang-port tests" >::: [
