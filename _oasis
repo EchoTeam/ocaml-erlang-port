@@ -15,14 +15,18 @@ Library "ocaml-erlang-port"
   Path:         src
   BuildDepends: num
   Modules:      ErlangTerm, ErlangPort
+  NativeOpt:    -w +a-4
+  ByteOpt:      -w +a-4
 
 Executable test
-  Path: tests
-  Build$:          flag(tests)
-  BuildDepends: num
-  Install: false
+  Path:           tests
+  Build$:         flag(tests)
+  Install:        false
   CompiledObject: best
-  MainIs: ErlangTerm_Check.ml
+  MainIs:         test.ml
+  BuildDepends:   oUnit, num
+  NativeOpt:      -w +a-4
+  ByteOpt:        -w +a-4
 
 SourceRepository github
   Type:     git

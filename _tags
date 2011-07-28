@@ -1,9 +1,19 @@
 # OASIS_START
-# DO NOT EDIT (digest: d7b4ebcfa2c731017bc9b11bb56d0065)
+# DO NOT EDIT (digest: cc93d1b361e408ffe53ebfdb27db50a6)
 # Executable test
-<tests/ErlangTerm_Check.{native,byte}>: pkg_num
+<tests/test.{native,byte}>: oasis_executable_test_byte
+<tests/*.ml{,i}>: oasis_executable_test_byte
+<tests/test.{native,byte}>: oasis_executable_test_native
+<tests/*.ml{,i}>: oasis_executable_test_native
+<tests/test.{native,byte}>: pkg_oUnit
+<tests/test.{native,byte}>: pkg_num
+<tests/*.ml{,i}>: pkg_oUnit
 <tests/*.ml{,i}>: pkg_num
 # Library ocaml-erlang-port
 "src": include
+<src/ocaml-erlang-port.{cma,cmxa}>: oasis_library_ocaml_erlang_port_byte
+<src/*.ml{,i}>: oasis_library_ocaml_erlang_port_byte
+<src/ocaml-erlang-port.{cma,cmxa}>: oasis_library_ocaml_erlang_port_native
+<src/*.ml{,i}>: oasis_library_ocaml_erlang_port_native
 <src/*.ml{,i}>: pkg_num
 # OASIS_STOP
