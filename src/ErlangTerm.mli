@@ -16,7 +16,7 @@ type erlang_term =
   | ET_Atom of string
   | ET_String of string
   | ET_List of erlang_term list
-  | ET_Tuple of erlang_term list;
+  | ET_Tuple of erlang_term list
   | ET_Float of float
   | ET_Binary of Buffer.t
   | ET_BitBinary of Buffer.t * int
