@@ -474,8 +474,12 @@ let binary_to_term_buf2 off buf =
 	let ibyte () = let byte = int_of_char (Buffer.nth buf !off) in
 			incr off;
 			byte in
-	let iint () = List.fold_left (fun a e -> a + (ibyte () lsl e))
-			0 [24; 16; 8; 0] in
+	let iint () = Int32.(
+      to_int (
+        List.fold_left (fun a e -> add a (shift_left (of_int (ibyte ())) e))
+		  zero [24; 16; 8; 0]
+      )
+    ) in
 	let istr len = let s = Buffer.sub buf !off len in
 			off := !off + len;
 			s in
@@ -518,7 +522,10 @@ let term_to_binary_out out_channel term =
 let term_to_binary_buf buffer term =
 	let abyte x = Buffer.add_char buffer (char_of_int x) in
 	let aint x =
-		List.iter (fun n -> abyte (x lsr n land 255)) [24; 16; 8; 0] in
+      let x32 = Int32.of_int x in
+	  List.iter (fun n ->
+        abyte Int32.(to_int (logand (shift_right_logical x32 n) 0xFFl))
+      ) [24; 16; 8; 0] in
 	let astr = Buffer.add_string buffer in
 	let abuf = Buffer.add_buffer buffer in
 	abyte 131;
