@@ -1,0 +1,4 @@
+*.o
+*.a
+*.cm*
+erlterm_check
