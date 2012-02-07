@@ -26,16 +26,13 @@ let erlang_port_read in_channel =
 
 (* Serialize the given term into the port channel *)
 let erlang_port_write out_channel term =
-	let b = ep_tmp_buffer in
-	Buffer.clear b;
-	term_to_binary_buf b term;
+	let a = term_to_binary_bufs term in
 	(* Spewing out 4-byte BE prefix to satisfy {packet, 4} flag in Erlang *)
-	output_binary_int out_channel (Buffer.length b);
-	Buffer.output_buffer out_channel b;
+	let l = List.fold_left(fun acc bb -> acc + (Buffer.length bb)) 0 a in
+	output_binary_int out_channel l;
+	List.iter (Buffer.output_buffer out_channel) a;
 	flush stdout;
-	ep_maybe_shrink_buffer ()
 	;;
-
 
 (* Get Erlang Terms on stdin, invoke the specified functions and send back the produced Erlang terms. This function never returns. *)
 let erlang_port_interact_with_key (f : 'a -> erlang_term -> 'a * erlang_term) key0 =

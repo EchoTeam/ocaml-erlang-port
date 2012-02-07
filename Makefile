@@ -51,4 +51,3 @@ erlterm_check: $(LIBCMXS) ErlangTerm_Check.cmx
 
 clean:
 	rm -f *.cm* *.[ao]
-	rm -f erlterm_check
