@@ -32,7 +32,7 @@ check: erlterm_check
 	@echo "Running embedded self-check"
 	./erlterm_check
 	@echo "Running external tests"
-	./erlterm_check ./erlterm_tests/*.et
+	./erlterm_check ../erlterm_tests/*.et
 	@echo "make check: OK"
 
 erlterm_check: $(LIBCMXS) ErlangTerm_Check.cmx
