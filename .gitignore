@@ -1,4 +1,6 @@
-*.o
-*.a
-*.cm*
+ocaml_src/*.o
+ocaml_src/*.a
+ocaml_src/*.cm*
 erlterm_check
+ebin
+deps
