@@ -1,4 +1,4 @@
-{application, portserver,
+{application, ocaml_erlang_port,
  [
   {description, ""},
   {vsn, "1"},
