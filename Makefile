@@ -2,28 +2,28 @@ all:
 	$(REBAR) compile
 
 install:
-	cd ocaml_src; $(MAKE) install
+	cd ocaml-erlang-port; $(MAKE) install
 
 install-package:
-	cd ocaml_src; $(MAKE) install-package
+	cd ocaml-erlang-port; $(MAKE) install-package
 
 uninstall:
-	cd ocaml_src; $(MAKE) uninstall
+	cd ocaml-erlang-port; $(MAKE) uninstall
 
-ocaml_check:
-	cd ocaml_src; $(MAKE) check
+ocaml-check:
+	cd ocaml-erlang-port; $(MAKE) check
 
-ocaml_src:
-	cd ocaml_src; $(MAKE)
+ocaml:
+	cd ocaml-erlang-port; $(MAKE)
 
-ocaml_src_clean:
-	cd ocaml_src; $(MAKE) clean
+ocaml-clean:
+	cd ocaml-erlang-port; $(MAKE) clean
 
-check: ocaml_check
+check: ocaml-check
 
-clean: ocaml_src_clean
+clean: ocaml-clean
 	$(REBAR) clean
 
-.PHONY: ocaml_src ocaml_src_clean ocaml_src_clean
+.PHONY: ocaml ocaml-clean ocaml-check
 
 REBAR ?= $(shell which ./rebar)

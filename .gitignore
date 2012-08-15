@@ -1,6 +1,6 @@
-ocaml_src/*.o
-ocaml_src/*.a
-ocaml_src/*.cm*
+ocaml-erlang-port/*.o
+ocaml-erlang-port/*.a
+ocaml-erlang-port/*.cm*
 erlterm_check
 ebin
 deps
