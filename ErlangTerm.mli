@@ -54,4 +54,6 @@ val binary_to_term_buf : Buffer.t -> erlang_term
 val binaries_to_terms_buf : Buffer.t -> erlang_term list
 val term_to_binary_out : out_channel -> erlang_term -> unit
 val term_to_binary_buf : Buffer.t -> erlang_term -> unit
+val term_to_binary_bufs : erlang_term -> Buffer.t list
 val term_to_binary : erlang_term -> Buffer.t
+exception ExceptionTerm of erlang_term
