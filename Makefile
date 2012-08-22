@@ -1,54 +1,29 @@
-# If nothing works, try `ocamlmklib -o $(PACKAGE) *.ml`
-
-PACKAGE=ocaml-erlang-port
-LIBSRCS=ErlangTerm.ml ErlangPort.ml
-LIBCMIS=${LIBSRCS:.ml=.cmi}
-LIBCMOS=${LIBSRCS:.ml=.cmo}
-LIBCMXS=${LIBSRCS:.ml=.cmx}
-
-LIBS=$(PACKAGE).cma $(PACKAGE).cmxa $(PACKAGE).a lib$(PACKAGE).a
-
-all: $(LIBCMIS) $(LIBS)
+all:
+	$(REBAR) compile
 
 install:
-	@echo "Use install-package if you want to do a system-wide install"
+	cd ocaml-erlang-port; $(MAKE) install
 
-install-package: uninstall $(LIBCMIS) $(LIBS)
-	ocamlfind install $(PACKAGE) $(LIBS) $(LIBCMIS) META
+install-package:
+	cd ocaml-erlang-port; $(MAKE) install-package
 
 uninstall:
-	ocamlfind remove $(PACKAGE)
+	cd ocaml-erlang-port; $(MAKE) uninstall
 
-$(PACKAGE).cma: $(LIBCMIS) $(LIBCMOS)
-	ocamlmklib -o $(PACKAGE) $(LIBCMOS)
+ocaml-check:
+	cd ocaml-erlang-port; $(MAKE) check
 
-$(PACKAGE).cmxa: $(LIBCMIS) $(LIBCMXS)
-	ocamlmklib -o $(PACKAGE) $(LIBCMXS)
+ocaml:
+	cd ocaml-erlang-port; $(MAKE)
 
-lib$(PACKAGE).a: $(LIBCMIS) $(LIBCMXS)
-	ocamlmklib -o lib$(PACKAGE) $(LIBCMXS)
+ocaml-clean:
+	cd ocaml-erlang-port; $(MAKE) clean
 
-check: erlterm_check
-	@echo "Running embedded self-check"
-	./erlterm_check
-	@echo "Running external tests"
-	./erlterm_check ./erlterm_tests/*.et
-	@echo "make check: OK"
+check: ocaml-check
 
-erlterm_check: $(LIBCMXS) ErlangTerm_Check.cmx
-	ocamlfind ocamlopt -package num -linkpkg -o erlterm_check $(LIBCMXS) ErlangTerm_Check.cmx
+clean: ocaml-clean
+	$(REBAR) clean
 
-.SUFFIXES: .ml .mli .cmx .cmo .cmi
+.PHONY: ocaml ocaml-clean ocaml-check
 
-.ml.cmx:
-	ocamlfind ocamlopt -o $@ -c $<
-
-.ml.cmo:
-	ocamlfind ocamlc -o $@ -c $<
-
-.mli.cmi:
-	ocamlfind ocamlc -o $@ $<
-
-clean:
-	rm -f *.cm* *.[ao]
-	rm -f erlterm_check
+REBAR ?= $(shell which ./rebar)
