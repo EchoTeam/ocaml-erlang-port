@@ -68,6 +68,14 @@ let bignum_check_negative () =
 		| _ -> failwith "Bignum test failed"
 	;;
 
+let bigbuffer_check () =
+	let a = ref [] in
+	for v = 1 to 100000 do
+		a := complexTerm :: !a
+	done;
+	ET_List !a;;
+    
+
 (* Check that the given Erlang term passes the round-trip encode/decode test *)
 let check_round_trip op term =
 	let rewrittenTerm = binary_to_term_buf (term_to_binary term) in
@@ -115,6 +123,20 @@ let selfcheck () =
 	print_erlang_term complexTerm;
 	print_newline ();
 	check_round_trip (=) complexTerm;
+
+	ignore(term_to_binary_bufs (bigbuffer_check ()));
+
+    (* do not check it on 64bit system as
+     * Sys.max_string_length = 144115188075855863
+     * it's too long to generate assertion
+     *)
+    if Sys.word_size == 32 then
+        let b = Buffer.create 1024 in
+        try
+            term_to_binary_buf b (bigbuffer_check ());
+            assert(false)
+        with Failure "Buffer.add: cannot grow buffer" -> ();
+
 	print_string "Selfcheck OK\n";;
 
 let _ =
