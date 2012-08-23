@@ -1,4 +1,6 @@
-*.o
-*.a
-*.cm*
+ocaml-erlang-port/*.o
+ocaml-erlang-port/*.a
+ocaml-erlang-port/*.cm*
 erlterm_check
+ebin
+deps
