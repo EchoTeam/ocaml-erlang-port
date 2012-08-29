@@ -279,6 +279,14 @@ let rec erlang_term_decode ibyte iint istr ibuf () =
 		let len = iint () in
 		let bits = ibyte () in
 		ET_BitBinary (ibuf len, bits)
+	(* 8.25 NEW_FLOAT_EXT *)
+	| 70 ->
+        let i1 = iint() in
+        let i2 = iint() in
+        let i64 = Int64.add
+            (Int64.shift_left (Int64.of_int i1) 32)
+            (Int64.of_int i2) in
+        ET_Float(Int64.float_of_bits i64)
 	| n -> failwith ("Unknown term format: " ^ string_of_int n)
 	;;
 
