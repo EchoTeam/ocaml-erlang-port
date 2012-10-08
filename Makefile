@@ -20,6 +20,7 @@ ocaml-clean:
 	cd ocaml-erlang-port; $(MAKE) clean
 
 check: ocaml-check
+	$(REBAR) eunit
 
 clean: ocaml-clean
 	$(REBAR) clean

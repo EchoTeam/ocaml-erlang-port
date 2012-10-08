@@ -4,3 +4,4 @@ ocaml-erlang-port/*.cm*
 erlterm_check
 ebin
 deps
+.eunit
