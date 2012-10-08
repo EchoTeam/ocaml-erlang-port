@@ -55,7 +55,7 @@ init(PortCommand) ->
 	end,
     process_flag(trap_exit, false),
     case Status of
-	start_failure -> jerr:error_msg("Failed to start ~p~n", [PortCommand]);
+	start_failure -> error_logger:error_msg("Failed to start ~p~n", [PortCommand]);
 	running -> ok
     end,
     {ok, #state{status = Status, port = Port, portcmd = PortCommand }}.
@@ -71,7 +71,7 @@ handle_call(Query, From, #state{status = running, port = Port,
       true ->
 	port_command(Port, term_to_binary(Query)),
 	case jn_mavg:history(Mavg) of
-		{0, _, _} -> jerr:warning_msg("Port ~p overloaded: ~p~n",
+		{0, _, _} -> error_logger:warning_msg("Port ~p overloaded: ~p~n",
 			[PortCmd, element(2, handle_call(status, From, NewState))]);
 		_ -> ok % Do not print anything too frequently
 	end,
@@ -105,7 +105,7 @@ handle_call(status, _From, #state{status = Status, qlen = QLen } = State) ->
     Reply = [{status, Status}, {queue_length, QLen}]
 	++ case queue:peek(State#state.q) of
 		{value, {T, _}} -> [{wait_time,
-			jsk_common:now2ms(now()) - jsk_common:now2ms(T)}];
+			now2ms(now()) - now2ms(T)}];
 		empty -> []
 	end
 	++ case jn_mavg:history(State#state.overloads) of
@@ -139,7 +139,7 @@ handle_info(force_stop, #state{status = closing} = State) ->
 handle_info(force_stop, #state{status = running} = State) ->
     {stop, port_closed, respond_to_waiting(State, {error, port_closed})};
 handle_info(_Info, State) ->
-    jerr:warning_msg("Port ~p received unexpected message ~p~n",
+    error_logger:warning_msg("Port ~p received unexpected message ~p~n",
 	[State#state.portcmd, _Info]),
     {noreply, State}.
 
@@ -158,3 +158,6 @@ respond_to_waiting(#state{q = Q} = State, WithMessage) ->
 	[gen_server:reply(From, WithMessage) || {_, From} <- queue:to_list(Q)],
 	State#state{ q = queue:new(), qlen = 0 }.
 
+now2ms(Now) -> now2micro(Now) div 1000.
+ 
+now2micro({Mega, Sec, Micro}) -> Mega * 1000000000000 + Sec * 1000000 + Micro.
