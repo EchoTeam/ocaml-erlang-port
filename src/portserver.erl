@@ -1,6 +1,31 @@
 -module(portserver).
--export([start/1, start/2, start_link/1, start_link/2, stop/1, code_change/3, handle_call/3, init/1, terminate/2, handle_info/2, handle_cast/2]).
--export([call/3, call/4, status/1, ping/1]).
+
+-export([
+	start/1,
+	start/2,
+	start/3,
+	start_link/1,
+	start_link/2,
+	start_link/3,
+	stop/1
+]).
+
+-export([
+	code_change/3,
+	handle_call/3,
+	init/1,
+	terminate/2,
+	handle_info/2,
+	handle_cast/2
+]).
+
+-export([
+	call/3,
+	call/4,
+	status/1,
+	ping/1
+]).
+
 -behaviour(gen_server).
 
 start(PortCommand) ->
@@ -14,6 +39,12 @@ start(ServerName, PortCommand) ->
 
 start_link(ServerName, PortCommand) ->
     gen_server:start_link(ServerName, ?MODULE, PortCommand, []).
+
+start(ServerName, PortCommand, Options) ->
+    gen_server:start(ServerName, ?MODULE, PortCommand, Options).
+
+start_link(ServerName, PortCommand, Options) ->
+    gen_server:start_link(ServerName, ?MODULE, PortCommand, Options).
 
 stop(ServerRef) ->
     case gen_server:call(ServerRef, stop) of
