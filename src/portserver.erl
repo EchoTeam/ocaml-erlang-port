@@ -88,10 +88,12 @@ init(PortCommand) ->
     end,
     process_flag(trap_exit, false),
     case Status of
-    start_failure -> error_logger:error_msg("Failed to start ~p~n", [PortCommand]);
-    running -> ok
-    end,
-    {ok, #state{status = Status, port = Port, portcmd = PortCommand }}.
+        running ->
+            {ok, #state{status = Status, port = Port, portcmd = PortCommand }};
+        start_failure ->
+            error_logger:error_msg("Failed to start ~p~n", [PortCommand]),
+            {stop, start_failure}
+    end.
 
 % First thing, check out that we are not overloaded.
 handle_call(Query, From, #state{status = running, port = Port,
@@ -148,9 +150,7 @@ handle_call(status, _From, #state{status = Status, qlen = QLen } = State) ->
     {reply, Reply, State};
 
 handle_call(_Q, _From, #state{status = closing} = State) ->
-    {reply, {error, port_closing}, State};
-handle_call(_Q, _From, #state{status = start_failure} = State) ->
-    {reply, {error, port_not_started}, State}.
+    {reply, {error, port_closing}, State}.
 
 handle_cast(_, State) ->
     {noreply, State}.
