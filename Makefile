@@ -16,15 +16,15 @@ ocaml-check:
 ocaml:
 	cd ocaml-erlang-port; $(MAKE)
 
-ocaml-clean:
+clean-ocaml:
 	cd ocaml-erlang-port; $(MAKE) clean
 
 check: ocaml-check
 	$(REBAR) eunit
 
-clean: ocaml-clean
+clean: clean-ocaml
 	$(REBAR) clean
 
-.PHONY: ocaml ocaml-clean ocaml-check
+.PHONY: ocaml clean-ocaml ocaml-check
 
 REBAR ?= $(shell which ./rebar)
