@@ -1,7 +1,7 @@
 {application, ocaml_erlang_port,
  [
   {description, ""},
-  {vsn, "1.0.0"},
+  {vsn, "1.0.3"},
   {registered, []},
   {applications, []},
   {env, []}
