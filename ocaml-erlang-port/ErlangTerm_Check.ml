@@ -50,7 +50,9 @@ let complexTerm =  ET_List [
 	];;
 
 (*
- * Bignum check is separate because bignum is not responding well to the generic comparison function (=). It throws. Therefore, we check Bignum using Num's own equality function \textsl{eq\_num}.
+ * Bignum check is separate because bignum is not responding well to the generic
+ * comparison function (=). It throws. Therefore, we check Bignum using
+ * Num's own equality function \textsl{eq\_num}.
  *)
 let bignum_check_positive () =
 	let num = Num.num_of_string "5000000000000000000" in
