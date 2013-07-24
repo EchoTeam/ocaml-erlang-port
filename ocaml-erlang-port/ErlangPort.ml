@@ -37,7 +37,8 @@ let erlang_port_write out_channel term =
 	;;
 
 
-(* Get Erlang Terms on stdin, invoke the specified functions and send back the produced Erlang terms. This function never returns. *)
+(* Get Erlang Terms on stdin, invoke the specified functions
+ * and send back the produced Erlang terms. This function never returns. *)
 let erlang_port_interact_with_key (f : 'a -> erlang_term -> 'a * erlang_term) key0 =
 	set_binary_mode_in stdin true;
 	set_binary_mode_out stdout true;
