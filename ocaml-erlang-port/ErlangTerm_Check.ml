@@ -76,7 +76,6 @@ let bigbuffer_check () =
 		a := complexTerm :: !a
 	done;
 	ET_List !a;;
-    
 
 (* Check that the given Erlang term passes the round-trip encode/decode test *)
 let check_round_trip op term =

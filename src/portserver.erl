@@ -192,5 +192,5 @@ respond_to_waiting(#state{q = Q} = State, WithMessage) ->
     State#state{ q = queue:new(), qlen = 0 }.
 
 now2ms(Now) -> now2micro(Now) div 1000.
- 
+
 now2micro({Mega, Sec, Micro}) -> Mega * 1000000000000 + Sec * 1000000 + Micro.
