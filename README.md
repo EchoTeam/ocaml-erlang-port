@@ -34,8 +34,10 @@ ErlangPort.erlang_port_interact_with_key port_command_dispatcher None
 ```
 
 To compile the code above run:
-    $ cd examples/
-    $ ocamlfind ocamlopt -package ocaml-erlang-port -linkpkg -o port_sample port_sample.ml
+
+	$ cd examples/
+	$ ocamlfind ocamlopt -package ocaml-erlang-port -linkpkg -o port_sample port_sample.ml
+
 
 ### Erlang
 
