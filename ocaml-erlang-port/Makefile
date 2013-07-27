@@ -41,13 +41,13 @@ erlterm_check: $(LIBCMXS) ErlangTerm_Check.cmx
 .SUFFIXES: .ml .mli .cmx .cmo .cmi
 
 .ml.cmx:
-	ocamlfind ocamlopt -o $@ -c $<
+	ocamlfind ocamlopt -warn-error A -o $@ -c $<
 
 .ml.cmo:
-	ocamlfind ocamlc -o $@ -c $<
+	ocamlfind ocamlc -warn-error A -o $@ -c $<
 
 .mli.cmi:
-	ocamlfind ocamlc -o $@ $<
+	ocamlfind ocamlc -warn-error A -o $@ $<
 
 clean:
 	rm -f *.cm* *.[ao]
